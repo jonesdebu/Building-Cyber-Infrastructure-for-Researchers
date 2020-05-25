@@ -1,0 +1,66 @@
+{% extends "admin_dashboard.html" %}
+
+{% block content %}
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for( 'dashboard' ) }}">Submit New Code</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for( 'new_project' ) }}">New Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for( 'previous_computations' ) }}">View Previous Computations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for( 'help' ) }}">Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            {{result}}
+
+            <br>
+            <br>
+            <br>
+            <script src="../static/plotly-latest.min.js"></script>
+            <div id="myDiv" style="width:600px;height:600px;"></div>
+            <script>
+                var result = JSON.parse('{{ result | tojson | safe}}');
+                Plotly.d3.json(result, function(error, figure) {
+                    if(error) throw error;
+                    var trace1 = {
+                        x:figure.data[0].x,
+			            y:figure.data[0].y,
+			            marker: {color: "rgba(142,189,42,0.9)"},
+			            type: "scatter",
+                        mode: "lines",
+		            }
+		            var data = [trace1];
+		            var layout = {
+	                    title: "Openwhisk Result Plot",
+	                    titlefont: {
+		                    color: "#7f7f7f",
+		                    size: 18
+                        },
+	            };
+	            Plotly.plot('myDiv', data, layout);
+	            })
+            </script>
+
+
+{% endblock %}

@@ -12,7 +12,7 @@
 
     <div style="text-align:center">
 
-        <form method="POST" action="/login">
+        <form method="POST" action="http://localhost:5000/dashboard">
             <p style="text-align:center">Username   {{ form.username }}</p>
 
             <br/>
@@ -25,15 +25,13 @@
 
             <br/>
 
-            <input type="submit" value="Login">
+            <input type="submit" value="Login" style="font-family:'Poppins', sans-serif; font-size:1.1em;">
 
             <button type="button" onclick="window.location.href='{{ url_for( 'register' ) }}';">Register</button>
 
         </form>
 
         <br/>
-
-        <button type="button" onclick="window.location.href='{{ url_for( 'register' ) }}';">Forget your password?</button>
 
     </div>
 
